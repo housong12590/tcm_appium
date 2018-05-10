@@ -1,21 +1,18 @@
 import device
 import os
+from appium import webdriver
 
-apk_path = os.path.join(os.path.dirname(__file__), 'tcmlive.apk')
+PATH = lambda p: os.path.abspath(
+    os.path.join(os.path.dirname(__file__), p)
+)
 
-package_name = device.get_package_name(apk_path)
-
-version = device.device_version()
-
-device_name = device.device_id()
-
-DESIRED_CAPS = {'platformName': 'Android',
-                'platformVersion': version,
-                'deviceName': device_name,
-                'app': apk_path,
-                'appPackage': package_name,
+desired_caps = {'platformName': 'Android',
+                'platformVersion': device.device_version(),
+                'deviceName': device.device_id(),
+                'app': PATH('../apks/tcmlive.apk'),
+                'appPackage': 'com.kexinbao100.tcmlive',
                 'appActivity': '.project.activity.SplashActivity',
                 'noReset': True
                 }
 
-print(DESIRED_CAPS)
+driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
